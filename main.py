@@ -203,6 +203,7 @@ while PLAYING:
     ############
     #ON A PERDU#
     ############
+        
     if sonic_1_rect.health == 0:
         for i in range(len(enemies)):
             enemies.pop(0)

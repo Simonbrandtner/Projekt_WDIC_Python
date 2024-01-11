@@ -56,7 +56,7 @@ medium_button = Button('Medium', width / 2 - button_width / 2, button_y, button_
 hard_button = Button('Hard', 3 * width / 4 - button_width / 2, button_y, button_width, button_height, button_font, (255, 0, 0), (255, 255, 255))
 
 while LOGGING:
-    cursor_rect = cursor_surface.get_rect(topleft = (name_rect.topright))
+    cursor_rect = cursor_surface.get_rect(topleft=(name_rect.topright))
     screen.fill((150,150,150))
     name_surface = font.render(f"{NAMEID}", True, (0,0,0))
     name_rect = name_surface.get_rect(midtop=(width / 2, height / 2))
@@ -78,26 +78,29 @@ while LOGGING:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
             if easy_button.is_over(mouse_pos):
-                # Set difficulty to easy
-                pass
+                selected_difficulty = 'Easy'  # Set difficulty to easy
             elif medium_button.is_over(mouse_pos):
-                # Set difficulty to medium
-                pass
+                selected_difficulty = 'Medium'  # Set difficulty to medium
             elif hard_button.is_over(mouse_pos):
-                # Set difficulty to hard
-                pass
-        if event.type == 256:
-            PLAYING = False
-            LOGGING = False
-        elif event.type == 768:
-            if (event.unicode.isalpha() or event.unicode.isnumeric()) and len(NAMEID) < 20:
-                if NAMEID == "Type your name":
-                    NAMEID = ""
-                NAMEID += event.unicode
+                selected_difficulty = 'Hard'  # Set difficulty to hard
+
+            
+
+            if event.type == pygame.QUIT:
+                LOGGING = False
+            elif event.type == pygame.KEYDOWN:
+                if event.type == 256:
+                    PLAYING = False
+                    LOGGING = False
+            elif event.type == 768:
+                if (event.unicode.isalpha() or event.unicode.isnumeric()) and len(NAMEID) < 20:
+                    if NAMEID == "Type your name":
+                        NAMEID = ""
+                    NAMEID += event.unicode
             elif event.key == 8:
                 if NAMEID != "Type your name":
                     NAMEID = NAMEID[0:len(NAMEID)-1]
-            elif event.key in (13,1073741912) and len(NAMEID) > 0 and NAMEID != "Type your name":
+            elif event.key in (pygame.K_RETURN, pygame.K_KP_ENTER) and len(NAMEID) > 0 and NAMEID != "Type your name" and selected_difficulty is not None:
                 PLAYING = True
                 LOGGING = False
     pygame.display.flip()
@@ -119,3 +122,4 @@ for key, value in scores.items():
         BESTSCORE = value
 if NEWPLAYER:
     BESTSCORE = 0
+    
