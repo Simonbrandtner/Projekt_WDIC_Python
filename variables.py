@@ -70,6 +70,7 @@ states_duck.append(pygame.image.load("images/duck2.png").convert_alpha())
 enemy_spike_surface = pygame.image.load("images/spike.png").convert_alpha()
 enemy_bird_surface = pygame.image.load("images/bird.png").convert_alpha()
 rock_surface = pygame.image.load("images/rock.png").convert_alpha()
+skydrifter_surface =pygame.image.load("images/rock.png").convert_alpha()
 enemies = []
 # sonic en saut
 sonic_jump_surface = pygame.image.load("images/sonicJump.png").convert_alpha()
