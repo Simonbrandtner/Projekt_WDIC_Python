@@ -24,44 +24,13 @@ cursor_surface = font.render("-", True, (50,50,50))
 cursor_rect = cursor_surface.get_rect(topleft=(name_rect.topright))
 cursor_time = time()
 
-# Button class
-class Button:
-    def __init__(self, text, x, y, width, height, font, bg_color, text_color):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.font = font
-        self.bg_color = bg_color
-        self.text_color = text_color
-        self.rect = pygame.Rect(x, y, width, height)
-        self.text_surf = font.render(text, True, text_color)
-
-    def draw(self, win):
-        pygame.draw.rect(win, self.bg_color, self.rect)
-        win.blit(self.text_surf, (self.x + 20, self.y + 10))
-
-    def is_over(self, pos):
-        return self.rect.collidepoint(pos)
-
-# Difficulty buttons
-button_width = 150
-button_height = 50
-button_y = height / 2 + 100
-font_size = 30
-button_font = pygame.font.Font(None, font_size)
-easy_button = Button('Easy', width / 4 - button_width / 2, button_y, button_width, button_height, button_font, (0, 255, 0), (255, 255, 255))
-medium_button = Button('Medium', width / 2 - button_width / 2, button_y, button_width, button_height, button_font, (255, 255, 0), (0, 0, 0))
-hard_button = Button('Hard', 3 * width / 4 - button_width / 2, button_y, button_width, button_height, button_font, (255, 0, 0), (255, 255, 255))
-selected_difficulty = None
-
 while LOGGING:
     cursor_rect = cursor_surface.get_rect(topleft=(name_rect.topright))
     screen.fill((150,150,150))
     name_surface = font.render(f"{NAMEID}", True, (0,0,0))
     name_rect = name_surface.get_rect(midtop=(width / 2, height / 2))
     screen.blit(name_surface, name_rect)
+    
 
     if int(((time()))*2.2)%2 == 0 and len(NAMEID) < 20:
         screen.blit(cursor_surface, cursor_rect)
@@ -71,7 +40,12 @@ while LOGGING:
     if NAMEID != "Type your name":
         screen.blit(text_surface, text_rect)
 
+    # Event handling for difficulty buttons
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+        
+
         if event.type == 256:
             PLAYING = False
             LOGGING = False
@@ -83,11 +57,10 @@ while LOGGING:
             elif event.key == 8:
                 if NAMEID != "Type your name":
                     NAMEID = NAMEID[0:len(NAMEID)-1]
-            elif event.key in (13,1073741912) and len(NAMEID) > 0 and NAMEID != "Type your name":
+            elif event.key in (13,1073741912) and len(NAMEID) > 0 and NAMEID != "Type your name" is not None:
                 PLAYING = True
                 LOGGING = False
     pygame.display.flip()
-
 
 REGISTERED = False
 # Initialize best score
