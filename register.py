@@ -54,7 +54,6 @@ button_font = pygame.font.Font(None, font_size)
 easy_button = Button('Easy', width / 4 - button_width / 2, button_y, button_width, button_height, button_font, (0, 255, 0), (255, 255, 255))
 medium_button = Button('Medium', width / 2 - button_width / 2, button_y, button_width, button_height, button_font, (255, 255, 0), (0, 0, 0))
 hard_button = Button('Hard', 3 * width / 4 - button_width / 2, button_y, button_width, button_height, button_font, (255, 0, 0), (255, 255, 255))
-
 selected_difficulty = None
 
 while LOGGING:
@@ -63,9 +62,6 @@ while LOGGING:
     name_surface = font.render(f"{NAMEID}", True, (0,0,0))
     name_rect = name_surface.get_rect(midtop=(width / 2, height / 2))
     screen.blit(name_surface, name_rect)
-    easy_button.draw(screen)
-    medium_button.draw(screen)
-    hard_button.draw(screen)
 
     if int(((time()))*2.2)%2 == 0 and len(NAMEID) < 20:
         screen.blit(cursor_surface, cursor_rect)
@@ -75,17 +71,7 @@ while LOGGING:
     if NAMEID != "Type your name":
         screen.blit(text_surface, text_rect)
 
-    # Event handling for difficulty buttons
     for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = event.pos
-            if easy_button.is_over(mouse_pos):
-                selected_difficulty = 'Easy'  # Set difficulty to easy
-            elif medium_button.is_over(mouse_pos):
-                selected_difficulty = 'Medium'  # Set difficulty to medium
-            elif hard_button.is_over(mouse_pos):
-                selected_difficulty = 'Hard'  # Set difficulty to hard
-
         if event.type == 256:
             PLAYING = False
             LOGGING = False
@@ -97,10 +83,11 @@ while LOGGING:
             elif event.key == 8:
                 if NAMEID != "Type your name":
                     NAMEID = NAMEID[0:len(NAMEID)-1]
-            elif event.key in (13,1073741912) and len(NAMEID) > 0 and NAMEID != "Type your name" and selected_difficulty is not None:
+            elif event.key in (13,1073741912) and len(NAMEID) > 0 and NAMEID != "Type your name":
                 PLAYING = True
                 LOGGING = False
     pygame.display.flip()
+
 
 REGISTERED = False
 # Initialize best score
