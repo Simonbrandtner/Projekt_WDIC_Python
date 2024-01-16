@@ -32,6 +32,7 @@ except ModuleNotFoundError:
     print("""Vous n'avez pas téléchargé le module pygame ! \n
         Téléchargez le avec la commande ci-contre : pip install pygame""")
 from functions import animate_gif, play_sound
+test
 
 while PLAYING:
     ACCELERATION = SCORE / 2
