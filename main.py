@@ -24,7 +24,7 @@ from variables import (BESTSCOREBEATEN, BESTSCOREPATH, DAMAGE, DAMAGEPATH,
                        scores_screen_surface, sonic_1_rect, sonic_jump_rect,
                        sonic_jump_surface, sonic_rect, start_jump, states_duck,
                        states_sonic, time_gif, time_gif_duck, time_score_sound,
-                       time_spawn, timer)
+                       time_spawn, timer, enemy_skydrifter_surface)
 
 try:
     import pygame
@@ -32,6 +32,7 @@ except ModuleNotFoundError:
     print("""Vous n'avez pas téléchargé le module pygame ! \n
         Téléchargez le avec la commande ci-contre : pip install pygame""")
 from functions import animate_gif, play_sound
+
 
 while PLAYING:
     ACCELERATION = SCORE / 2
@@ -142,8 +143,19 @@ while PLAYING:
                     width,
                     300
                 )
+                
                 ),
                 enemy_bird_surface, "flyingMob")
+            )
+
+            enemies.append(Enemy(
+                enemy_skydrifter_surface.get_rect(topleft=(
+                    width,
+                    300
+                )
+                
+                ),
+                enemy_skydrifter_surface, "flyingMob2")
             )
         if random_heart == 1 and CHECKHEART and CHECKHEART2:
             enemies.append(Enemy(
@@ -155,7 +167,7 @@ while PLAYING:
                 heart_surface, "heart")
             )
         if EASTEREGG == 1:
-            for i in range(4):
+            for i in range(5):
                 enemies.append(Enemy(heart_surface.get_rect(topleft=(
                     width,
                     height - randint(200, 700)

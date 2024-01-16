@@ -53,3 +53,49 @@ class Enemy(Entity):
         else:
             self.change_speed((speed,0))
     
+
+    def run(self ,speed):
+            """animate the mob"""
+            if self.category == "flyingMob2":
+                self.change_speed(
+                            (
+                            speed + speed*0.05,choice([randint(int(-400+speed * 0.3),
+                            int(-300+speed * 0.3)
+                            ),
+                            randint(
+                                    int(-120+speed * 0.1),
+                                    int(100+speed * 0.1))]
+                                )
+                            )
+                        )
+            elif self.category == "heart":
+                self.change_speed((speed + randint(0,500),0))
+            elif self.category == "mediumMob":
+                self.change_speed((speed + speed*0.05,0))
+            else:
+                self.change_speed((speed,0))
+    
+
+
+
+
+    def run(self ,speed):
+        """animate the mob"""
+        if self.category == "ScaryMob":
+            self.change_speed(
+                        (
+                        speed + speed*0.05,choice([randint(int(-400+speed * 0.3),
+                        int(-300+speed * 0.3)
+                        ),
+                        randint(
+                                int(-120+speed * 0.1),
+                                int(100+speed * 0.1))]
+                            )
+                        )
+                    )
+        elif self.category == "heart":
+            self.change_speed((speed + randint(0,500),0))
+        elif self.category == "mediumMob":
+            self.change_speed((speed + speed*0.05,0))
+        else:
+            self.change_speed((speed,0))
