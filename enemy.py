@@ -59,19 +59,19 @@ class Enemy(Entity):
             if self.category == "flyingMob2":
                 self.change_speed(
                             (
-                            speed + speed*0.05,choice([randint(int(-400+speed * 0.3),
-                            int(-300+speed * 0.3)
+                            speed + speed*0.05,choice([randint(int(-300+speed * 0.2),
+                            int(-200+speed * 0.1)
                             ),
                             randint(
-                                    int(-120+speed * 0.1),
-                                    int(100+speed * 0.1))]
+                                    int(-90+speed * 0.1),
+                                    int(80+speed * 0.1))]
                                 )
                             )
                         )
             elif self.category == "heart":
-                self.change_speed((speed + randint(0,500),0))
+                self.change_speed((speed + randint(0,300),0))
             elif self.category == "mediumMob":
-                self.change_speed((speed + speed*0.05,0))
+                self.change_speed((speed + speed*0.02,0))
             else:
                 self.change_speed((speed,0))
     

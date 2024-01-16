@@ -137,7 +137,20 @@ while PLAYING:
                     ),
                     enemy_spike_surface,  "bigMob")
                 )
-        else:
+                
+        if rand <=5:
+            if 0 < rand <= 2:
+                enemies.append(Enemy(
+                    enemy_skydrifter_surface.get_rect(topleft=(
+                        width,
+                        200
+                    )
+                    
+                    ),
+                    enemy_skydrifter_surface, "flyingMob2")
+                )
+
+        elif 2 < rand <= 4:
             enemies.append(Enemy(
                 enemy_bird_surface.get_rect(topleft=(
                     width,
@@ -148,15 +161,7 @@ while PLAYING:
                 enemy_bird_surface, "flyingMob")
             )
 
-            enemies.append(Enemy(
-                enemy_skydrifter_surface.get_rect(topleft=(
-                    width,
-                    300
-                )
-                
-                ),
-                enemy_skydrifter_surface, "flyingMob2")
-            )
+            
         if random_heart == 1 and CHECKHEART and CHECKHEART2:
             enemies.append(Enemy(
                 heart_surface.get_rect(topleft=(
