@@ -3,7 +3,7 @@ from entity import Entity
 
 class Enemy(Entity):
     """init an enemy"""
-    def __init__(self, rect, surface, category, spawn_height_range=(100, 500)):
+    def __init__(self, rect, surface, category, spawn_height_range=(200, 300)):
         Entity.__init__(self, rect)
         self.category = category
         self.surface = surface
