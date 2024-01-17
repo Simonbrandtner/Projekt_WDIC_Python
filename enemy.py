@@ -1,16 +1,25 @@
-"""Class enemy"""
 from random import randint, choice
 from entity import Entity
 
-
 class Enemy(Entity):
     """init an enemy"""
-    def __init__(self, rect, surface, category):
+    def __init__(self, rect, surface, category, spawn_height_range=(100, 500)):
         Entity.__init__(self, rect)
         self.category = category
         self.surface = surface
         self.speed = (0,0)
-        self.position = self.rect.topleft
+        # Setzt die Startposition der fliegenden Gegner in einem zufälligen Bereich.
+        if self.category in ["flyingMob", "flyingMob2"]:
+            self.set_random_vertical_position(spawn_height_range)
+        else:
+            self.position = self.rect.topleft
+
+    def set_random_vertical_position(self, height_range):
+        """Setzt die vertikale Position des fliegenden Gegners in einem zufälligen Bereich."""
+        x, _ = self.rect.topleft
+        y = randint(*height_range)
+        self.position = (x, y)
+        self.rect.topleft = self.position
 
     def enemy_restriction(self):
         """return true if enemy left his rect restriction"""
@@ -31,6 +40,11 @@ class Enemy(Entity):
     def moving(self):
         """verif if moving"""
         return self.speed != (0,0)
+
+    def run(self, speed):
+        """animate the mob"""
+    
+
 
     def run(self ,speed):
         """animate the mob"""
