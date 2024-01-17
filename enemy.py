@@ -41,75 +41,27 @@ class Enemy(Entity):
         """verif if moving"""
         return self.speed != (0,0)
 
+    
+
+
     def run(self, speed):
-        """animate the mob"""
-    
+        """animate the mob with random vertical movement"""
+        vertical_movement_range = (-50, 50)  # Beispielbereich für vertikale Bewegung
 
-
-    def run(self ,speed):
-        """animate the mob"""
-        if self.category == "flyingMob":
-            self.change_speed(
-                        (
-                        speed + speed*0.05,choice([randint(int(-400+speed * 0.3),
-                        int(-300+speed * 0.3)
-                        ),
-                        randint(
-                                int(-120+speed * 0.1),
-                                int(100+speed * 0.1))]
-                            )
-                        )
-                    )
+        if self.category in ["flyingMob", "flyingMob2", "ScaryMob"]:
+            # Zufällige vertikale Geschwindigkeit für fliegende Gegner
+            vertical_speed = choice(vertical_movement_range)
+            self.change_speed((speed, vertical_speed))
         elif self.category == "heart":
-            self.change_speed((speed + randint(0,500),0))
+            self.change_speed((speed + randint(0, 500), 0))
         elif self.category == "mediumMob":
-            self.change_speed((speed + speed*0.05,0))
+            self.change_speed((speed + speed * 0.05, 0))
         else:
-            self.change_speed((speed,0))
+            self.change_speed((speed, 0))
     
-
-    def run(self ,speed):
-            """animate the mob"""
-            if self.category == "flyingMob2":
-                self.change_speed(
-                            (
-                            speed + speed*0.05,choice([randint(int(-300+speed * 0.2),
-                            int(-200+speed * 0.1)
-                            ),
-                            randint(
-                                    int(-90+speed * 0.1),
-                                    int(80+speed * 0.1))]
-                                )
-                            )
-                        )
-            elif self.category == "heart":
-                self.change_speed((speed + randint(0,300),0))
-            elif self.category == "mediumMob":
-                self.change_speed((speed + speed*0.02,0))
-            else:
-                self.change_speed((speed,0))
     
 
 
 
 
-    def run(self ,speed):
-        """animate the mob"""
-        if self.category == "ScaryMob":
-            self.change_speed(
-                        (
-                        speed + speed*0.05,choice([randint(int(-400+speed * 0.3),
-                        int(-300+speed * 0.3)
-                        ),
-                        randint(
-                                int(-120+speed * 0.1),
-                                int(100+speed * 0.1))]
-                            )
-                        )
-                    )
-        elif self.category == "heart":
-            self.change_speed((speed + randint(0,500),0))
-        elif self.category == "mediumMob":
-            self.change_speed((speed + speed*0.05,0))
-        else:
-            self.change_speed((speed,0))
+   
