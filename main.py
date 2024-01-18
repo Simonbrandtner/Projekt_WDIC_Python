@@ -24,7 +24,7 @@ from variables import (BESTSCOREBEATEN, BESTSCOREPATH, DAMAGE, DAMAGEPATH,
                        scores_screen_surface, sonic_1_rect, sonic_jump_rect,
                        sonic_jump_surface, sonic_rect, start_jump, states_duck,
                        states_sonic, time_gif, time_gif_duck, time_score_sound,
-                       time_spawn, timer, enemy_skydrifter_surface)
+                       time_spawn, timer, enemy_skydrifter_surface,coin_surface)
 
 try:
     import pygame
@@ -33,8 +33,52 @@ except ModuleNotFoundError:
         Téléchargez le avec la commande ci-contre : pip install pygame""")
 from functions import animate_gif, play_sound
 
+coin_speed = 2  # Beispielgeschwindigkeit, passen Sie sie an die Geschwindigkeit der Gegner an
+class Coin:
+    def __init__(self, surface, spawn_area, speed):
+        self.surface = surface
+        self.rect = self.surface.get_rect()
+        self.spawn_area = spawn_area
+        self.speed = speed
+        self.spawn()
+
+    def spawn(self):
+        """Spawnt den Coin in einem definierten Bereich."""
+        x = width  # Setzen von x auf die Breite des Bildschirms
+        y = randint(self.spawn_area[2], self.spawn_area[3])
+        self.rect.topleft = (x, y)
+
+    def move_like_enemy(self):
+        """Bewegt den Coin ähnlich wie einen Gegner."""
+        self.rect.x -= self.speed
+
+    def display(self, screen):
+        """Zeichnet den Coin."""
+        screen.blit(self.surface, self.rect)
+    
+    def enemy_restriction(self):
+        """Überprüft, ob die Münze außerhalb des Spielbereichs ist."""
+        return self.rect.x < 0  #  eine  Bedingung, die den linken Rand definiert
+
+coin = Coin(coin_surface, spawn_area=(0, width, 0, height), speed=5)  
+coin_spawn_timer = time()
+active_coins = []
+
+coin_counter = 0  # Variable für den Münzenzähler
 
 while PLAYING:
+
+    coin_count_surface = score_font.render(f"Coins: {coin_counter}", True, (0, 0, 0))
+    coin_count_rect = coin_count_surface.get_rect(bottomright=(width - 10, height - 10))
+    screen.blit(coin_count_surface, coin_count_rect)
+    
+    for coin in active_coins:
+        coin.move_like_enemy()
+        coin.display(screen)
+        if sonic_jump_rect.rect.colliderect(coin.rect):  # Überprüfen , ob Sonic eine Münze gesammelt hat
+            coin_counter += 1  # Erhöhen  des Münzenzähler
+            active_coins.remove(coin)  # Entfernen  der gesammelten Münze
+
     active_projectiles = []  # Liste für aktive Projektile
     ACCELERATION = SCORE / 2
     ACCELERATION = min(ACCELERATION, 666)
@@ -171,13 +215,9 @@ while PLAYING:
             active_projectiles.append(projectile)
             enemy.last_shot_time = current_time
 
-    # Bewegen und Anzeigen der Projektile
-    for projectile in active_projectiles:
-        projectile.move()
-        projectile.display(screen)
-
-    # Entfernen von Projektilen, die außerhalb des Spielbereichs sind
-    active_projectiles = [p for p in active_projectiles if not p.enemy_restriction()]
+    coin_count_surface = score_font.render(f"Coins: {coin_counter}", True, (0, 0, 0))
+    coin_count_rect = coin_count_surface.get_rect(bottomright=(width, height))
+    screen.blit(coin_count_surface, coin_count_rect)
 
 
 
@@ -198,12 +238,29 @@ while PLAYING:
         effect_time = time()
         DAMAGE = False
         HEALING = False
+    
+   # Überprüfung, ob 3 Sekunden seit dem letzten Münzen-Spawn vergangen sind
+    if time() - coin_spawn_timer > 3:
+        # Erzeugen einer neuen Münze und Hinzufügen zur Liste der aktiven Münzen
+        new_coin = Coin(coin_surface, spawn_area=(0, width, 0, height), speed=5)
+        active_coins.append(new_coin)
+        # Aktualisieren des Münzen-Spawn-Timers
+        coin_spawn_timer = time()
+
+    # Bewegen und Anzeigen aller aktiven Münzen
+    for coin in active_coins:
+        coin.move_like_enemy()
+        coin.display(screen)
+
+    # Entfernen von Münzen, die außerhalb des Spielbereichs sind
+    active_coins = [c for c in active_coins if not c.enemy_restriction()]
 
     ############
     #LES SCORES#
     ############
     # si on a pas perdu on affiche le score actuel, sinon le last score
     if not LOST:
+
         SCORE = int(round((time() - score_timer) * 10, 0))
         if BESTSCOREBEATEN:
             score_surface = score_live_font.render(
@@ -219,6 +276,9 @@ while PLAYING:
     ############
     #ON A PERDU#
     ############
+    
+
+    
         
     if sonic_1_rect.health == 0:
         for i in range(len(enemies)):
@@ -236,6 +296,7 @@ while PLAYING:
         scores[NAMEID] = BESTSCORE
         with open("best_score.pickle", "wb") as f:
             pickle.dump(scores, f)
+    
 
     ############
     #LES DECORS#

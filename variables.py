@@ -77,6 +77,7 @@ sonic_jump_surface = pygame.image.load("images/sonicJump.png").convert_alpha()
 
 # le coeur
 heart_surface = pygame.image.load("images/heart.png").convert_alpha()
+coin_surface = pygame.image.load("images/Coin.png").convert_alpha()
 
 grass_surface = pygame.image.load("images/grass.png").convert_alpha()
 grass_rect = Environment(grass_surface.get_rect(

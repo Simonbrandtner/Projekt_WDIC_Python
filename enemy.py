@@ -2,6 +2,10 @@ import pygame
 from random import randint, choice
 from entity import Entity
 
+
+
+
+
 class Projectile(Entity):
     def __init__(self, rect, color, radius, speed):
         Entity.__init__(self, rect)

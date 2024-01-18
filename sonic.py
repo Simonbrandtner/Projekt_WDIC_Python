@@ -5,7 +5,7 @@ class Sonic(Entity):
     """init sonic"""
     def __init__(self, rect):
         Entity.__init__(self, rect)
-        self.health = 4
+        self.health = 7
         self.speed = (0,0)
         self.position = self.rect.topleft
 
