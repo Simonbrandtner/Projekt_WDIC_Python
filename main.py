@@ -92,9 +92,8 @@ while PLAYING:
     ################
     # on fait spawn les mobs, avec un délais qui empêche les situations impossibles
     mobs_speed = 850 + ACCELERATION
-    delay_mobs = 150 * 4.8/mobs_speed
-    if time() >= time_spawn+delay_mobs+uniform(-0.05, 0.7) and not LOST:
-        rand = randint(1, 10)
+    delay_mobs = 150 * 4.8 / mobs_speed
+    if time() >= time_spawn + delay_mobs + uniform(-0.05, 0.7) and not LOST:
         EASTEREGG = -1
         try:
             CHECKHEART = enemies[len(enemies)-1].category != "heart"
@@ -113,56 +112,56 @@ while PLAYING:
         if sonic_1_rect.health == 5:
             random_heart = randint(1, 200)
 
-
         mob_type_chance = randint(1, 2)  # 1 für fliegenden Mob, 2 für Boden Mob
 
-        if rand >= 5:
-            # Fliegender Mob (SkyDrifter oder Bird)
-            flying_enemy_chance = randint(1, 10)  # 1 für SkyDrifter, 2 für Bird
+        if mob_type_chance == 1:
+            # Nur fliegende Mobs
+            flying_enemy_chance = randint(1, 2)  # Zufallsauswahl für fliegenden Mob
             if flying_enemy_chance == 1:
                 # SkyDrifter
                 enemies.append(Enemy(
                     enemy_skydrifter_surface.get_rect(topleft=(width, randint(100, height - 200))),
                     enemy_skydrifter_surface, "flyingMob2")
                 )
-            if flying_enemy_chance == 2:
+            else:
                 # Bird
                 enemies.append(Enemy(
                     enemy_bird_surface.get_rect(topleft=(width, 300)),
                     enemy_bird_surface, "flyingMob")
                 )
+
         else:
-            # Boden Mob (Spike, Duck oder Stone)
-            if rand <= 5:
-                ground_enemy_chance = randint(1, 10)  # Zufallsauswahl für Boden Mob
-                if ground_enemy_chance == 1:
-                    # Stein
-                    enemies.append(Enemy(
-                        rock_surface.get_rect(topleft=(width, height - 200)),
-                        rock_surface, "littleMob")
-                    )
-                if ground_enemy_chance == 2:
-                    # Spike
-                    enemies.append(Enemy(
-                        enemy_spike_surface.get_rect(topleft=(width, height - 200)),
-                        enemy_spike_surface, "bigMob")
-                    )
-                if ground_enemy_chance == 3:
-                    # Duck
-                    enemies.append(Enemy(
-                        states_duck[DUCKSTATE].get_rect(topleft=(width, height - 200)),
-                        states_duck[DUCKSTATE], "mediumMob")
-                    )
-                if EASTEREGG == 1:
-                    for i in range(4):
-                        enemies.append(Enemy(heart_surface.get_rect(topleft=(
-                            width,
-                            height - randint(200, 700)
-                        )
-                        ),
-                            heart_surface, "heart")
-                        )
-                time_spawn = time()
+            # Nur Boden Mobs
+            ground_enemy_chance = randint(1, 3)  # Zufallsauswahl für Boden Mob
+            if ground_enemy_chance == 1:
+                # Stein
+                enemies.append(Enemy(
+                    rock_surface.get_rect(topleft=(width, height - 200)),
+                    rock_surface, "littleMob")
+                )
+            elif ground_enemy_chance == 2:
+                # Spike
+                enemies.append(Enemy(
+                    enemy_spike_surface.get_rect(topleft=(width, height - 200)),
+                    enemy_spike_surface, "bigMob")
+                )
+            else:
+                # Duck
+                enemies.append(Enemy(
+                    states_duck[DUCKSTATE].get_rect(topleft=(width, height - 200)),
+                    states_duck[DUCKSTATE], "mediumMob")
+                )
+
+        if EASTEREGG == 1:
+            for i in range(4):
+                enemies.append(Enemy(heart_surface.get_rect(topleft=(
+                    width,
+                    height - randint(200, 700)
+                )),
+                    heart_surface, "heart")
+                )
+        time_spawn = time()
+
 
     # tick de la frame
     tick = timer.tick(200) / 1000
