@@ -42,10 +42,14 @@ class Coin:
         self.speed = speed
         self.spawn()
 
+
+
     def spawn(self):
+        some_offset = 100  
+
         """Spawnt den Coin in einem definierten Bereich."""
-        x = width  # Setzen von x auf die Breite des Bildschirms
-        y = randint(self.spawn_area[2], self.spawn_area[3])
+        x = width  # x h, Münze spawnen am rechten Bildschirmrand
+        y = randint(self.spawn_area[2], self.spawn_area[3]) - some_offset  # Verschieben der y-Koordinate nach oben
         self.rect.topleft = (x, y)
 
     def move_like_enemy(self):
@@ -69,7 +73,7 @@ coin_counter = 0  # Variable für den Münzenzähler
 while PLAYING:
 
     coin_count_surface = score_font.render(f"Coins: {coin_counter}", True, (0, 0, 0))
-    coin_count_rect = coin_count_surface.get_rect(bottomright=(width - 10, height - 10))
+    coin_count_rect = coin_count_surface.get_rect(bottomright=(width - 20, height - 20))
     screen.blit(coin_count_surface, coin_count_rect)
     
     for coin in active_coins:
@@ -79,7 +83,6 @@ while PLAYING:
             coin_counter += 1  # Erhöhen  des Münzenzähler
             active_coins.remove(coin)  # Entfernen  der gesammelten Münze
 
-    active_projectiles = []  # Liste für aktive Projektile
     ACCELERATION = SCORE / 2
     ACCELERATION = min(ACCELERATION, 666)
     #####################
@@ -209,11 +212,7 @@ while PLAYING:
 
 
         current_time = pygame.time.get_ticks() / 1000  # Aktuelle Zeit in Sekunden
-    for enemy in enemies:
-        if current_time - enemy.last_shot_time >= 2:  # Alle 2 Sekunden schießen
-            projectile = enemy.shoot((255, 0, 0), 5, (5, 0), (0, 0))  # Farbe, Radius, Geschwindigkeit, Offset
-            active_projectiles.append(projectile)
-            enemy.last_shot_time = current_time
+    
 
     coin_count_surface = score_font.render(f"Coins: {coin_counter}", True, (0, 0, 0))
     coin_count_rect = coin_count_surface.get_rect(bottomright=(width, height))

@@ -6,32 +6,7 @@ from entity import Entity
 
 
 
-class Projectile(Entity):
-    def __init__(self, rect, color, radius, speed):
-        Entity.__init__(self, rect)
-        self.color = color
-        self.radius = radius
-        self.speed = speed
 
-    def move(self):
-        """Bewegt das Projektil."""
-        self.position = (self.position[0] + self.speed[0], self.position[1] + self.speed[1])
-        self.rect.center = self.position
-
-    def display(self, screen):
-        """Zeichnet das Projektil als Kreis."""
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
-
-    def enemy_restriction(self):
-        # Beispiel: Überprüft, ob das
-        #  Projektil links außerhalb des Bildschirms ist
-        screen_width=300
-        screen_height=100
-        if self.position[0] < 0 or self.position[0] > screen_width:  # screen_width muss definiert sein
-            return True
-        if self.position[1] < 0 or self.position[1] > screen_height:  # screen_height muss definiert sein
-            return True
-        return False  
 
 class Enemy(Entity):
     """init an enemy"""
@@ -91,8 +66,4 @@ class Enemy(Entity):
         else:
             self.change_speed((speed, 0))
 
-    def shoot(self, color, radius, projectile_speed, spawn_offset=(0,0)):
-        """Lässt den Gegner ein Projektil schießen."""
-        projectile_rect = self.rect.copy()  # Erstellt eine Kopie des Rechtecks des Gegners
-        projectile_rect.center = (self.position[0] + spawn_offset[0], self.position[1] + spawn_offset[1])
-        return Projectile(projectile_rect, color, radius, projectile_speed)
+  
