@@ -35,6 +35,7 @@ from functions import animate_gif, play_sound
 
 
 while PLAYING:
+    active_projectiles = []  # Liste für aktive Projektile
     ACCELERATION = SCORE / 2
     ACCELERATION = min(ACCELERATION, 666)
     #####################
@@ -161,6 +162,23 @@ while PLAYING:
                     heart_surface, "heart")
                 )
         time_spawn = time()
+
+
+        current_time = pygame.time.get_ticks() / 1000  # Aktuelle Zeit in Sekunden
+    for enemy in enemies:
+        if current_time - enemy.last_shot_time >= 2:  # Alle 2 Sekunden schießen
+            projectile = enemy.shoot((255, 0, 0), 5, (5, 0), (0, 0))  # Farbe, Radius, Geschwindigkeit, Offset
+            active_projectiles.append(projectile)
+            enemy.last_shot_time = current_time
+
+    # Bewegen und Anzeigen der Projektile
+    for projectile in active_projectiles:
+        projectile.move()
+        projectile.display(screen)
+
+    # Entfernen von Projektilen, die außerhalb des Spielbereichs sind
+    active_projectiles = [p for p in active_projectiles if not p.enemy_restriction()]
+
 
 
     # tick de la frame
